@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Stock Market Data Analysis with Heaps</title>
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+</head>
+<body style="background:#111; color:white; font-family:sans-serif;">
+  <h2>Top Stocks (Heap Based)</h2>
+  <button onclick="loadTop()">Refresh</button>
+  <table border="1" id="table" style="margin-top:10px; background:#222; color:white;"></table>
+  <div id="chart" style="height:400px;"></div>
+
+  <script>
+    async function loadTop() {
+      const res = await fetch("/api/top?n=5");
+      const data = await res.json();
+      const tbody = document.getElementById("table");
+      tbody.innerHTML = "<tr><th>Ticker</th><th>% Change</th></tr>";
+      data.top.forEach(r=>{
+        tbody.innerHTML += `<tr><td>${r.ticker}</td><td>${r.change}</td></tr>`;
+      });
+    }
+    loadTop();
+  </script>
+</body>
+</html>
